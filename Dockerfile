@@ -12,4 +12,4 @@ COPY redirect.py ./
 
 RUN pip install Flask gunicorn
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 redirect:app
+CMD exec gunicorn --log-level DEBUG --bind :$PORT --workers 1 --threads 8 redirect:app
