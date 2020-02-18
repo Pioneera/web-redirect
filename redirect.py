@@ -1,17 +1,7 @@
 import os
 import logging
-import sys
 
 from flask import Flask,redirect
-
-root = logging.getLogger()
-root.setLevel(logging.DEBUG)
-
-handler = logging.StreamHandler(sys.stdout)
-handler.setLevel(logging.DEBUG)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-handler.setFormatter(formatter)
-root.addHandler(handler)
 
 app = Flask(__name__)
 
