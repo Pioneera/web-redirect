@@ -3,10 +3,10 @@
   - name: gcr.io/cloud-builders/docker
     args:
     - build
-    '--build-arg',
-    'REDIRECT_TYPE=${_REDIRECT_TYPE}',
-    '--build-arg',
-    'REDIRECT_TARGET=${_REDIRECT_TARGET}',
+    - "--build-arg"
+    - REDIRECT_TYPE=${_REDIRECT_TYPE}
+    - "--build-arg"
+    - REDIRECT_TARGET=${_REDIRECT_TARGET}
     - "-t"
     - gcr.io/$PROJECT_ID/${_SERVICE_NAME}:${COMMIT_SHA}
     - "."
