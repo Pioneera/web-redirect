@@ -12,8 +12,12 @@ listening_port=int(os.environ.get('PORT', 8080))
 logging.debug('Adding redirection handling to target %s with code %d',redirect_target,redirect_type)
 
 @app.route('/')
-def generic_redirect():
+def root():
     return redirect(redirect_target, code=redirect_type)
+
+@app.route('/<path:page>')
+def anypage(page):
+    return redirect('{new_url}#{page}'.format(page=page, new_url=redirect_target), code=redirect_type)
 
 if __name__ == "__main__":
     app.run(debug=True,host='0.0.0.0',port=listening_port)
