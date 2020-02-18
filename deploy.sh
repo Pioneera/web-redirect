@@ -17,11 +17,13 @@ read_var() {
   echo ${VAR[1]}
 }
 
+TS=$(date +%s%N | cut -b1-13)
+
 echo "Enabling Cloud Build and Cloud Run in $(read_var PROJECT_ID)"
 gcloud services enable --project=$(read_var PROJECT_ID) cloudbuild.googleapis.com run.googleapis.com
 
 echo "Submitting $(read_var SERVICE_NAME) build in $(read_var PROJECT_ID)"
 gcloud builds submit --config=cloudbuild.yaml \
     --project=$(read_var PROJECT_ID) \
-    --substitutions=_SERVICE_NAME=$(read_var SERVICE_NAME),_REGION=$(read_var REGION),_REDIRECT_TYPE=$(read_var REDIRECT_TYPE),_REDIRECT_TARGET=$(read_var REDIRECT_TARGET) \
+    --substitutions=_SERVICE_NAME=$(read_var SERVICE_NAME),_REGION=$(read_var REGION),_REDIRECT_TYPE=$(read_var REDIRECT_TYPE),_REDIRECT_TARGET=$(read_var REDIRECT_TARGET),COMMIT_SHA=manual${TS} \
     .
