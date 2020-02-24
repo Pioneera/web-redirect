@@ -1,5 +1,6 @@
 import os
 import logging
+import sys
 
 from flask import Flask, redirect, request, session
 from flask.logging import create_logger
@@ -46,6 +47,7 @@ def log_traffic(base_url, ip, user_agent=None):
         tracker.track_pageview(pyga_page, pyga_session, pyga_visitor)
     except:
         logger.error('Unable to connect to analytics')
+        logger.error(sys.exc_info()[0])
 
 
 @app.route('/')

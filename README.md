@@ -1,6 +1,6 @@
 <h1  align="center">Welcome to web-redirect 👋</h1>
 <p>
-<img  alt="Version"  src="https://img.shields.io/badge/version-1.0.1-blue.svg?cacheSeconds=2592000"  />
+<img  alt="Version"  src="https://img.shields.io/badge/version-1.0.2-blue.svg?cacheSeconds=2592000"  />
 <a  href="http://www.apache.org/licenses/LICENSE-2.0"  target="_blank">
 <img  alt="License: APACHE--2"  src="https://img.shields.io/badge/License-APACHE--2-yellow.svg"  />
 </a>

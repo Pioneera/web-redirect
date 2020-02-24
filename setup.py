@@ -5,7 +5,7 @@ from datetime import datetime as dt
 from setuptools import find_packages, setup
 
 PROJECT_NAME = "Pioneera Web Redirector"
-PROJECT_VERSION = "1.0.1"
+PROJECT_VERSION = "1.0.2"
 PROJECT_PACKAGE_NAME = "web-redirector"
 PROJECT_LICENSE = "Apache License 2.0"
 PROJECT_AUTHOR = "Pioneera Pty Ltd"
