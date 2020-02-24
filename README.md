@@ -23,19 +23,39 @@ If you just want to deploy and get running - copy `.env.example` to `.env` and u
 
 Once that is up-to-date - just run `./deploy.sh` and your project will be deployed
 
+## Configuration
+
+### .env
+
+```text
+SERVICE_NAME=service-name
+REGION=australia-southeast1
+PROJECT_ID=project-id
+REDIRECT_TYPE=302
+REDIRECT_TARGET=https://pioneera.com/
+GA=UAXXXXXXX
+```
+
+`SERVICE_NAME` is the Cloud Run service name (only needed if using `./deploy.sh`)
+`REGION` is the Cloud Run region (only needed if using `./deploy.sh`)
+`PROJECT_ID` is the Cloud Run project ID (only needed if using `./deploy.sh`)
+`REDIRECT_TYPE` REQUIRED the [HTTP redirect code](https://en.wikipedia.org/wiki/URL_redirection#HTTP_status_codes_3xx) eg `302`
+`REDIRECT_TARGET` REQUIRED the URL to redirect to
+`GA` Your Google Analytics tracking ID eg `UA-000000-2`
+
 ## Author
 
 👤 **Troy Kelly**
 
-* Website: http://troykelly.com/
-* Keybase: [@troykelly](https://keybase.io/troykelly)
-* Twitter: [@troykelly](https://twitter.com/troykelly)
-* Github: [@troykelly](https://github.com/troykelly)
-* LinkedIn: [@troykelly](https://linkedin.com/in/troykelly)
+- Website: http://troykelly.com/
+- Keybase: [@troykelly](https://keybase.io/troykelly)
+- Twitter: [@troykelly](https://twitter.com/troykelly)
+- Github: [@troykelly](https://github.com/troykelly)
+- LinkedIn: [@troykelly](https://linkedin.com/in/troykelly)
 
 ## 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Pioneera/web-redirect/issues). 
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Pioneera/web-redirect/issues).
 
 ## Show your support
 
@@ -46,5 +66,6 @@ Give a ⭐️ if this project helped you!
 Copyright © 2020 [Pioneera Pty Ltd](https://github.com/Pioneera).<br />
 This project is [APACHE--2](http://www.apache.org/licenses/LICENSE-2.0) licensed.
 
-***
+---
+
 _This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
