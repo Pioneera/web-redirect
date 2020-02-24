@@ -40,6 +40,8 @@ def log_traffic(base_url, ip, user_agent=None):
     pyga_visitor = Visitor()
     pyga_visitor.ip_address = ip
     if user_agent:
+        logger.info(
+            'User agent: %s', user_agent)
         pyga_visitor.user_agent = user_agent
     pyga_session = Session()
     pyga_page = Page(url.path)
@@ -47,7 +49,7 @@ def log_traffic(base_url, ip, user_agent=None):
         tracker.track_pageview(pyga_page, pyga_session, pyga_visitor)
     except:
         logger.error('Unable to connect to analytics')
-        logger.error(sys.exc_info()[0])
+        logger.error(sys.exc_info())
 
 
 @app.route('/')
