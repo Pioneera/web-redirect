@@ -6,7 +6,7 @@
     {
       "label": "Preview",
       "type": "shell",
-      "command": "pkill gunicorn && gunicorn --pid /var/run/gunicorn-redirector --log-level debug --bind :$PORT --workers 1 --threads 8 redirect:app",
+      "command": "pkill gunicorn; rm -Rf /var/run/gunicorn-redirector.pid; gunicorn --pid /var/run/gunicorn-redirector.pid --log-level debug --bind :$PORT --workers 1 --threads 8 redirect:app",
       "group": {
         "kind": "test",
         "isDefault": true

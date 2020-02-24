@@ -2,10 +2,14 @@ import os
 import logging
 import sys
 
+from operator import itemgetter
+
 from flask import Flask, redirect, request, session
 from flask.logging import create_logger
 from pyga.requests import Tracker, Page, Session, Visitor
+from pyga import utils
 from urllib.parse import urlparse
+from urllib.error import URLError
 
 app = Flask(__name__)
 logger = create_logger(app)
@@ -30,37 +34,60 @@ if google_analytics:
                 google_analytics)
 
 
-def log_traffic(base_url, ip, user_agent=None):
+def log_traffic(request):
     if not google_analytics:
         return
-    url = urlparse(base_url)
-    logger.info(
-        'Logging GA traffic from %s to host %s with page %s', ip, url.hostname, url.path)
-    tracker = Tracker(google_analytics, url.hostname)
+    url = urlparse(request.base_url)
+
+    pyga_tracker = Tracker(google_analytics, url.hostname)
+
     pyga_visitor = Visitor()
-    pyga_visitor.ip_address = ip
-    if user_agent:
-        logger.info(
-            'User agent: %s', user_agent)
-        pyga_visitor.user_agent = user_agent
+    pyga_visitor.ip_address = request.access_route[0]
+    pyga_visitor.user_agent = request.headers.get('User-Agent')
+    user_locals = []
+    if 'Accept-Language' in request.headers:
+        al = request.headers.get('Accept-Language')
+        if al is not None:
+            matched_locales = utils.validate_locale(al)
+            if matched_locales:
+                lang_lst = map((lambda x: x.replace('-', '_')),
+                               (i[1] for i in matched_locales))
+                quality_lst = map((lambda x: x and x or 1),
+                                  (float(i[4] and i[4] or '0')
+                                   for i in matched_locales))
+                lang_quality_map = map((lambda x, y: (x, y)),
+                                       lang_lst, quality_lst)
+                user_locals = [x[0] for x in sorted(
+                    lang_quality_map, key=itemgetter(1), reverse=True)]
+    if user_locals:
+        pyga_visitor.locale = user_locals[0]
+
     pyga_session = Session()
+
     pyga_page = Page(url.path)
+    pyga_page.referrer = request.headers.get('Referer')
+
+    logger.info(
+        'Logging GA traffic from %s to host %s with page %s', pyga_visitor.ip_address, url.hostname, url.path)
+
     try:
-        tracker.track_pageview(pyga_page, pyga_session, pyga_visitor)
+        pyga_tracker.track_pageview(pyga_page, pyga_session, pyga_visitor)
+    except URLError:
+        logger.warn('Unable to connect to analytics')
     except:
-        logger.error('Unable to connect to analytics')
+        logger.error('Analytics logging failed')
         logger.error(sys.exc_info())
 
 
 @app.route('/')
 def root():
-    log_traffic(request.base_url, request.access_route[0], request.user_agent)
+    log_traffic(request)
     return redirect(redirect_target, code=redirect_type)
 
 
 @app.route('/<path:page>')
 def anypage(page):
-    log_traffic(request.base_url, request.access_route[0], request.user_agent)
+    log_traffic(request)
     return redirect('{new_url}#{page}'.format(page=page, new_url=redirect_target), code=redirect_type)
 
 
