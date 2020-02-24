@@ -46,13 +46,13 @@ def log_traffic(base_url, ip):
 
 @app.route('/')
 def root():
-    log_traffic(request.base_url, request.remote_addr)
+    log_traffic(request.base_url, request.access_route[0])
     return redirect(redirect_target, code=redirect_type)
 
 
 @app.route('/<path:page>')
 def anypage(page):
-    log_traffic(request.base_url, request.remote_addr)
+    log_traffic(request.base_url, request.access_route[0])
     return redirect('{new_url}#{page}'.format(page=page, new_url=redirect_target), code=redirect_type)
 
 
